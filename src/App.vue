@@ -1,7 +1,34 @@
 <template>
-  <nav></nav>
   <router-view/>
 </template>
 
 <style lang="scss">
+@import url("~modern-normalize/modern-normalize.css");
+
+/**
+Design Tokens
+*/
+:root {
+  // Size
+  --size-4: 0.25rem;
+  --size-8: 0.5rem;
+  --size-12: 0.75rem;
+  --size-16: 1rem;
+  --size-24: 1.5rem;
+  --size-32: 2rem;
+  --size-40: 2.5rem;
+
+  // Color
+  --color-blue-dark: rgba(34, 53, 71, 1);
+}
+
+/**
+Base
+*/
+html,
+body,
+#app {
+  height: 100%;
+  overflow: auto;
+}
 </style>
