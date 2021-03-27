@@ -1,28 +1,26 @@
 <template>
   <div class="home page">
-    <logo class="logo" />
+    <site-logo class="logo" />
     <main class="main">
       <p class="intro">Try matching the WillowTree Employee to their photo</p>
-      <router-link to="/play" class="button">Play!</router-link>
+      <site-button element="router-link" to="/play">Play!</site-button>
     </main>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { RouterLink } from 'vue-router'
-import Logo from '@/components/Logo.vue'
+import SiteLogo from '@/components/SiteLogo/SiteLogo.vue'
+import SiteButton from '@/components/SiteButton/SiteButton.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    Logo,
-    RouterLink
+    SiteLogo,
+    SiteButton
   }
 })
 </script>
-
-<style src="@/components/button/button.scss" lang="scss"></style>
 
 <style lang="scss" scoped>
 .home {

@@ -30,5 +30,18 @@ body,
 #app {
   height: 100%;
   overflow: auto;
+  line-height: 1.25;
+}
+
+/**
+Utilities
+*/
+.sr-only {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
 }
 </style>
