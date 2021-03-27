@@ -28,8 +28,8 @@ export default defineComponent({
 .home {
   --home-padding-top: var(--size-40);
   --home-padding-bottom: var(--size-40);
-  --home-padding-left: var(--size-16);
-  --home-padding-right: var(--size-16);
+  --home-padding-left: var(--size-40);
+  --home-padding-right: var(--size-40);
   @supports (padding-top: env(safe-area-inset-top)) {
     --home-padding-top: max(env(safe-area-inset-top), var(--size-40));
     --home-padding-bottom: max(env(safe-area-inset-bottom), var(--size-40));
@@ -40,10 +40,15 @@ export default defineComponent({
   --home-color-background: var(--color-blue-dark);
   --home-color-text: white;
 
-  display: flex;
-  flex-flow: column nowrap;
-  justify-content: space-between;
-  align-items: stretch;
+  display: grid;
+  grid-template-areas:
+    "."
+    "logo"
+    "main"
+    ".";
+  grid-template-rows: 1fr auto auto 1fr;
+  grid-template-columns: 1fr;
+  justify-items: center;
   height: 100vh;
   overflow-x: hidden;
 
@@ -55,8 +60,8 @@ export default defineComponent({
 }
 
 .logo {
-  align-self: center;
-  width: 115vw;
+  grid-area: logo;
+  transform: scale(1.15);
   max-width: 29rem;
 }
 
@@ -66,11 +71,15 @@ export default defineComponent({
   text-align: center;
   color: white;
 
+  transform: translateY(calc(var(--size-24) * -1));
+
+  grid-area: main;
   display: flex;
   flex-flow: column nowrap;
   gap: var(--size-24);
 }
+
 .intro {
-  margin: 0;
+  padding: 0 var(--size-40);
 }
 </style>
