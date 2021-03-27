@@ -2,6 +2,19 @@
   <router-view/>
 </template>
 
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'App',
+  mounted () {
+    if (!this.$store.state.employees.length) {
+      this.$store.dispatch('getEmployees')
+    }
+  }
+})
+</script>
+
 <style lang="scss">
 @import url("~modern-normalize/modern-normalize.css");
 
