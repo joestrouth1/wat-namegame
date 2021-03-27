@@ -44,7 +44,7 @@ export default defineComponent({
   --button-color-text: white;
 
   --button-font-size: var(--size-20);
-  --button-font-weight: var(--font-weight-medium, 500);
+  --button-font-weight: var(--font-weight-medium);
   --button-line-height: var(--size-24);
   --button-text-decoration: none;
 

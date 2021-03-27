@@ -20,6 +20,11 @@ Design Tokens
 
   // Color
   --color-blue-dark: rgba(34, 53, 71, 1);
+
+  // Type
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
 }
 
 /**

@@ -65,6 +65,7 @@ export default defineComponent({
 
 .main {
   font-size: var(--size-20);
+  font-weight: var(--font-weight-medium);
   line-height: var(--size-24);
   text-align: center;
   color: white;
