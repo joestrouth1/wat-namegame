@@ -1,4 +1,4 @@
-import { createStore } from 'vuex'
+import { createStore, Store } from 'vuex'
 
 interface Employee {
   id: string
@@ -27,29 +27,32 @@ export interface State {
   rounds: ScoringRound[]
 }
 
-export default createStore<State>({
-  state: {
-    employees: [],
-    rounds: []
-  },
-  mutations: {
-    setEmployees (state, employees) {
-      state.employees = employees
+export default function createVuexStore (initialState?: Partial<State>): Store<State> {
+  return createStore<State>({
+    state: {
+      employees: [],
+      rounds: [],
+      ...initialState
     },
-    setRounds (state, rounds) {
-      state.rounds = rounds
+    mutations: {
+      setEmployees (state, employees) {
+        state.employees = employees
+      },
+      setRounds (state, rounds) {
+        state.rounds = rounds
+      }
+    },
+    actions: {
+      getEmployees (context) {
+        fetchEmployees().then(data => {
+          context.commit('setEmployees', data)
+        }).catch(error => {
+          console.error(error, 'Error fetching employee list')
+        })
+      }
     }
-  },
-  actions: {
-    getEmployees (context) {
-      fetchEmployees().then(data => {
-        context.commit('setEmployees', data)
-      }).catch(error => {
-        console.error(error, 'Error fetching employee list')
-      })
-    }
-  }
-})
+  })
+}
 
 async function fetchEmployees (): Promise<Employee[]> {
   const response = await fetch('https://namegame.willowtreeapps.com/api/v1.0/profiles')
