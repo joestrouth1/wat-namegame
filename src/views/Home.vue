@@ -47,7 +47,7 @@ export default defineComponent({
   grid-template-rows: 1fr auto auto 1fr;
   grid-template-columns: 1fr;
   justify-items: center;
-  height: 100vh;
+  min-height: 100%;
   overflow-x: hidden;
 
   padding: var(--home-padding-top) var(--home-padding-right)
