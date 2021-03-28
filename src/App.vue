@@ -62,4 +62,22 @@ Utilities
   height: 1px;
   overflow: hidden;
 }
+
+/**
+Transitions
+*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0 !important;
+  }
+}
 </style>
