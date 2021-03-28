@@ -2,7 +2,16 @@
   <div class="play page">
     <site-header back />
     <main class="main">
-      Content
+      <h1 aria-live="polite">
+        <span v-if="!areRoundsLoaded">Loading...</span>
+        <span v-else>{{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}</span>
+      </h1>
+      <div v-if="currentRound" class="employee-grid">
+        <button v-for="(employee, index) in currentRound.employees.options" :key="employee.id">
+          <span>{{ index + 1 }}</span>
+          {{ employee.firstName }} {{ employee.lastName }}
+        </button>
+      </div>
     </main>
   </div>
 </template>
@@ -10,11 +19,32 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import SiteHeader from '@/components/SiteHeader/SiteHeader.vue'
+import { Employee, ScoringRound } from '@/store'
 
 export default defineComponent({
   name: 'Play',
   components: {
     SiteHeader
+  },
+  data () {
+    return {
+      roundNumber: 1
+    }
+  },
+  created () {
+    this.$store.dispatch('createRounds')
+  },
+  computed: {
+    areRoundsLoaded () {
+      return !!this.$store.state.rounds.length
+    },
+    currentRound (): ScoringRound {
+      return this.$store.state.rounds[this.roundNumber - 1]
+    },
+    selectedEmployee (): Employee | null {
+      if (!this.currentRound) return null
+      return this.currentRound.employees.selected
+    }
   }
 })
 </script>
