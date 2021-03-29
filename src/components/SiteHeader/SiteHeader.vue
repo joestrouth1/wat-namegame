@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <nav :class="{nav: true, back}">
+    <nav :class="{ nav: true, back }">
       <site-button
         v-if="back"
         aria-label="Back"
@@ -8,10 +8,10 @@
         @click="$router.back()"
         class="back-button"
       >
-        <img src="@/assets/icons/arrow-left.svg" alt="Back">
+        <img src="@/assets/icons/arrow-left.svg" alt="Back" />
       </site-button>
       <router-link to="/" class="link">
-        <img src="@/assets/wordmark.svg" alt="The Name Game" class="wordmark">
+        <img src="@/assets/wordmark.svg" alt="The Name Game" class="wordmark" />
       </router-link>
     </nav>
   </header>

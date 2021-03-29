@@ -1,13 +1,18 @@
 <template>
   <div class="play page">
-    <site-header back />
+    <SiteHeader back />
     <main class="main">
       <h1>
         <span v-if="!areRoundsLoaded">Loading...</span>
-        <span v-else>{{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}</span>
+        <span v-else>
+          {{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}
+        </span>
       </h1>
       <div v-if="currentRound" class="employee-grid">
-        <button v-for="(employee, index) in currentRound.employees.options" :key="employee.id">
+        <button
+          v-for="(employee, index) in currentRound.employees.options"
+          :key="employee.id"
+        >
           <span>{{ index + 1 }}</span>
           {{ employee.firstName }} {{ employee.lastName }}
         </button>

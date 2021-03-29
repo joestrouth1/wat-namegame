@@ -1,11 +1,11 @@
 <template>
   <main class="home page">
     <h1 class="title">
-      <site-logo class="logo" />
+      <SiteLogo class="logo" />
     </h1>
     <div class="content">
       <p class="intro">Try matching the WillowTree Employee to their photo</p>
-      <site-button element="router-link" to="/play">Play!</site-button>
+      <SiteButton element="router-link" to="/play">Play!</SiteButton>
     </div>
   </main>
 </template>

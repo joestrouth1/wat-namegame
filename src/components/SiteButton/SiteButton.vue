@@ -1,8 +1,11 @@
 <template>
-  <component :is="componentName" :class="{
-    button: true,
-    [`button-${variant}`]: true
-    }">
+  <component
+    :is="componentName"
+    :class="{
+      button: true,
+      [`button-${variant}`]: true,
+    }"
+  >
     <slot />
   </component>
 </template>
