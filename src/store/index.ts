@@ -12,6 +12,7 @@ export interface Employee {
 export interface ScoringGuess {
   dateCreated: Date
   employee: Employee
+  correct: boolean
 }
 
 export interface ScoringRound {

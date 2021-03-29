@@ -7,7 +7,7 @@
       <p class="intro" data-testid="intro">
         Try matching the WillowTree Employee to their photo
       </p>
-      <SiteButton element="router-link" to="/play"> Play! </SiteButton>
+      <SiteButton element="router-link" to="/play">Play!</SiteButton>
     </div>
   </main>
 </template>
@@ -30,14 +30,8 @@ export default defineComponent({
 .home {
   --home-padding-top: var(--size-40);
   --home-padding-bottom: var(--size-40);
-  --home-padding-left: var(--size-40);
-  --home-padding-right: var(--size-40);
-  @supports (padding-top: env(safe-area-inset-top)) {
-    --home-padding-top: max(env(safe-area-inset-top), var(--size-40));
-    --home-padding-bottom: max(env(safe-area-inset-bottom), var(--size-40));
-    --home-padding-left: max(env(safe-area-inset-left), var(--size-16));
-    --home-padding-right: max(env(safe-area-inset-right), var(--size-16));
-  }
+  --home-padding-left: var(--size-16);
+  --home-padding-right: var(--size-16);
 
   --home-color-background: var(--color-blue-dark);
   --home-color-text: white;
