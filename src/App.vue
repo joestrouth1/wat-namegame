@@ -63,6 +63,10 @@ Utilities
   overflow: hidden;
 }
 
+.focus-visible-only:focus:not(:focus-visible) {
+  outline: none !important;
+}
+
 /**
 Transitions
 */

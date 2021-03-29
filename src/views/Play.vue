@@ -2,7 +2,7 @@
   <div class="play page">
     <site-header back />
     <main class="main">
-      <h1 aria-live="polite">
+      <h1>
         <span v-if="!areRoundsLoaded">Loading...</span>
         <span v-else>{{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}</span>
       </h1>
