@@ -1,11 +1,13 @@
 <template>
-  <div class="home page">
-    <site-logo class="logo" />
-    <main class="main">
+  <main class="home page">
+    <h1 class="title">
+      <site-logo class="logo" />
+    </h1>
+    <div class="content">
       <p class="intro">Try matching the WillowTree Employee to their photo</p>
       <site-button element="router-link" to="/play">Play!</site-button>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -41,8 +43,8 @@ export default defineComponent({
   display: grid;
   grid-template-areas:
     "."
-    "logo"
-    "main"
+    "title"
+    "content"
     ".";
   grid-template-rows: 1fr auto auto 1fr;
   grid-template-columns: 1fr;
@@ -57,13 +59,16 @@ export default defineComponent({
   color: var(--home-color-text);
 }
 
+.title {
+  grid-area: title;
+  margin: 0;
+}
 .logo {
-  grid-area: logo;
-  transform: scale(1.15);
   max-width: 29rem;
+  transform: scale(1.15);
 }
 
-.main {
+.content {
   font-size: var(--size-20);
   font-weight: var(--font-weight-medium);
   line-height: var(--size-24);
@@ -72,7 +77,7 @@ export default defineComponent({
 
   transform: translateY(calc(var(--size-24) * -1));
 
-  grid-area: main;
+  grid-area: content;
   display: flex;
   flex-flow: column nowrap;
   gap: var(--size-24);
