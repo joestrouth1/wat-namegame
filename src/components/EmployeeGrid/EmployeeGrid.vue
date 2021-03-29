@@ -41,6 +41,7 @@ export default defineComponent({
 .employee-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   gap: var(--size-16);
   padding: 0 var(--size-16);
 }

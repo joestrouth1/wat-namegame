@@ -33,6 +33,7 @@ export default defineComponent({
   overflow: hidden;
   padding: 0;
   position: relative;
+  aspect-ratio: 1 / 1;
 
   &:hover,
   &:focus {
