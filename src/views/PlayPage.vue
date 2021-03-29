@@ -27,7 +27,7 @@ import SiteHeader from '@/components/SiteHeader/SiteHeader.vue'
 import { Employee, ScoringRound } from '@/store'
 
 export default defineComponent({
-  name: 'Play',
+  name: 'PlayPage',
   components: {
     SiteHeader
   },

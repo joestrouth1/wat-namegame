@@ -1,9 +1,10 @@
 import { shallowMount } from '@vue/test-utils'
-import Home from '@/views/Home.vue'
+import HomePage from '@/views/HomePage.vue'
 
-describe('Home.vue', () => {
-  it('renders test text', () => {
-    const wrapper = shallowMount(Home)
-    expect(wrapper.text()).toMatch('Test')
+describe('Home Page', () => {
+  it('renders instructions', () => {
+    const wrapper = shallowMount(HomePage)
+    wrapper.get('[data-testid="intro"]')
+    expect(wrapper.text()).toMatch(/try matching/i)
   })
 })

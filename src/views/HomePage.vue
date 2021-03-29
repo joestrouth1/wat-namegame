@@ -4,8 +4,10 @@
       <SiteLogo class="logo" />
     </h1>
     <div class="content">
-      <p class="intro">Try matching the WillowTree Employee to their photo</p>
-      <SiteButton element="router-link" to="/play">Play!</SiteButton>
+      <p class="intro" data-testid="intro">
+        Try matching the WillowTree Employee to their photo
+      </p>
+      <SiteButton element="router-link" to="/play"> Play! </SiteButton>
     </div>
   </main>
 </template>
@@ -16,7 +18,7 @@ import SiteLogo from '@/components/SiteLogo/SiteLogo.vue'
 import SiteButton from '@/components/SiteButton/SiteButton.vue'
 
 export default defineComponent({
-  name: 'Home',
+  name: 'HomePage',
   components: {
     SiteLogo,
     SiteButton
