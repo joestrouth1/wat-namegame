@@ -1,11 +1,11 @@
 /* eslint-disable */
 import { ComponentCustomProperties } from 'vue'
-import { Store } from 'vuex'
-import { State } from '@/store'
+import { Store, State } from '@/store'
+/* eslint-enable */
 
 declare module '@vue/runtime-core' {
   // provide typings for `this.$store`
   interface ComponentCustomProperties {
-    $store: Store<State>
+    $store: Store
   }
 }

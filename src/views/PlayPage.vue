@@ -26,7 +26,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Employee, ScoringRound, ScoringGuess } from '@/store'
+import { Employee } from '@/store/employees'
+import {
+  ScoringRound,
+  ScoringGuess,
+  ActionTypes as ScoringActions
+} from '@/store/scoring'
+
 import SiteButton from '@/components/SiteButton/SiteButton.vue'
 import SiteHeader from '@/components/SiteHeader/SiteHeader.vue'
 import EmployeeGrid from '@/components/EmployeeGrid/EmployeeGrid.vue'
@@ -44,14 +50,14 @@ export default defineComponent({
     }
   },
   created () {
-    this.$store.dispatch('createRounds')
+    this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
   },
   computed: {
     areRoundsLoaded () {
-      return !!this.$store.state.rounds.length
+      return !!this.$store.getters.allRounds.length
     },
     currentRound (): ScoringRound {
-      return this.$store.state.rounds[this.roundNumber - 1]
+      return this.$store.getters.allRounds[this.roundNumber - 1]
     },
     selectedEmployee (): Employee | null {
       if (!this.currentRound) return null
