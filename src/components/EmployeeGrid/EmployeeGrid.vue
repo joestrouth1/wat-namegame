@@ -15,7 +15,8 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Employee, ScoringRound } from '@/store'
+import { Employee } from '@/store/employees'
+import { ScoringRound } from '@/store/scoring'
 import EmployeeGridItem from './EmployeeGridItem.vue'
 
 export default defineComponent({

@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
-import { Employee } from '@/store'
+import { Employee } from '@/store/employees'
 
 export default defineComponent({
   name: 'EmployeeGridItem',

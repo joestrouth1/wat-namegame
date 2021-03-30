@@ -4,12 +4,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { ActionTypes as EmployeeActions } from '@/store/employees'
 
 export default defineComponent({
   name: 'App',
   mounted () {
-    if (!this.$store.state.employees.length) {
-      this.$store.dispatch('getEmployees')
+    if (!this.$store.getters.allEmployees.length) {
+      this.$store.dispatch(EmployeeActions.GET_EMPLOYEES)
     }
   }
 })
