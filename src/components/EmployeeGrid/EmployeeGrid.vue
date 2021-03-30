@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Employee } from '@/store/employees'
-import { ScoringRound } from '@/store/scoring'
+import { ActionTypes, ScoringRound } from '@/store/scoring'
 import EmployeeGridItem from './EmployeeGridItem.vue'
 
 export default defineComponent({
@@ -32,7 +32,7 @@ export default defineComponent({
   },
   methods: {
     handleClick (employee: Employee) {
-      alert(`Clicked: ${JSON.stringify(employee, null, 2)}`)
+      this.$store.dispatch(ActionTypes.CREATE_GUESS, { employee })
     }
   }
 })

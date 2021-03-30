@@ -3,7 +3,7 @@
     <SiteHeader back />
     <main class="main">
       <h1 class="heading">
-        <template v-if="!areRoundsLoaded">Loading...</template>
+        <template v-if="!currentRound">Loading...</template>
         <template v-else>
           <span class="lead">
             Which one of these good looking photos is the real
@@ -53,23 +53,23 @@ export default defineComponent({
     this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
   },
   computed: {
-    areRoundsLoaded () {
-      return !!this.$store.getters.allRounds.length
+    areRoundsLoaded (): boolean {
+      return !!this.$store.getters.currentRound
     },
-    currentRound (): ScoringRound {
-      return this.$store.getters.allRounds[this.roundNumber - 1]
+    currentRound (): ScoringRound | null {
+      return this.$store.getters.currentRound
     },
     selectedEmployee (): Employee | null {
       if (!this.currentRound) return null
       return this.currentRound.employees.selected
     },
     lastGuess (): ScoringGuess | null {
-      if (!this.currentRound?.guesses.length) return null
-      const latestGuess = this.currentRound.guesses.reduce((mostRecent, nextGuess) => {
-        if (nextGuess.dateCreated > mostRecent.dateCreated) return nextGuess
-        return mostRecent
-      }, this.currentRound.guesses[0])
-      return latestGuess
+      return this.$store.getters.lastGuess
+    }
+  },
+  methods: {
+    handleContinue () {
+      alert('continue')
     }
   }
 })
