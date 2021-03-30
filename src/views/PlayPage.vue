@@ -81,14 +81,8 @@ export default defineComponent({
 .play {
   display: flex;
   flex-flow: column nowrap;
-  gap: var(--size-40);
-
   min-height: 100%;
   overflow-x: hidden;
-
-  @media (min-width: $desktop) {
-    gap: var(--size-64);
-  }
 }
 
 .main {
@@ -99,9 +93,13 @@ export default defineComponent({
   align-items: center;
   max-width: 58.75rem;
   margin: 0 auto;
-  padding-bottom: var(--size-40);
+  padding: var(--size-40) 0;
 
   background-color: white;
+
+  @media (min-width: $desktop) {
+    padding-top: var(--size-64);
+  }
 }
 
 .heading {

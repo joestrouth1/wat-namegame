@@ -6,6 +6,7 @@
 import { defineComponent } from 'vue'
 import { ActionTypes as EmployeeActions } from '@/store/employees'
 
+// TODO: order component properties per style guide
 export default defineComponent({
   name: 'App',
   mounted () {
