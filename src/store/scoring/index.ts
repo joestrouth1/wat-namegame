@@ -8,17 +8,20 @@ import {
   CommitOptions,
   DispatchOptions
 } from 'vuex'
+import { nanoid } from 'nanoid'
 
 import { State as RootState } from '@/store'
 import { Employee, ActionTypes as EmployeeActionTypes } from '@/store/employees'
 
 export interface ScoringGuess {
+  id: string
   dateCreated: Date
   employee: Employee
   correct: boolean
 }
 
 export interface ScoringRound {
+  id: string
   employees: {
     selected: Employee
     options: Employee[]
@@ -104,6 +107,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
       const rounds: ScoringRound[] = employeeSets.map(options => {
         return {
+          id: nanoid(),
           employees: {
             selected: options[Math.floor(Math.random() * options.length)],
             options

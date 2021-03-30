@@ -126,11 +126,4 @@ export const EmployeesModule: Module<State, RootState> = {
   mutations,
   actions,
   getters
-  // Namespacing Vuex modules is tricky and hard to type check with typescript.
-  // Instead of namespacing, we could create our own namespacing mechanism by
-  // prefixing the value of the TypeScript enum with the namespace, e.g.
-  // enum TodoActions {
-  //   AddTodo = 'TODO__ADD_TODO'
-  // }
-  // namespaced: true,
 }
