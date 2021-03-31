@@ -71,10 +71,12 @@ export const actions: ActionTree<State, RootState> & Actions = {
   async [ActionTypes.GET_EMPLOYEES] ({ commit }) {
     try {
       const data = await fetchEmployees()
-      const trimmedData: Employee[] = data.map(employee => {
-        const { id, firstName, lastName, headshot: { url } } = employee
-        return { id, firstName, lastName, headshot: { url } }
-      })
+      const trimmedData: Employee[] = data
+        .filter(employee => !!employee.headshot.url)
+        .map(employee => {
+          const { id, firstName, lastName, headshot: { url } } = employee
+          return { id, firstName, lastName, headshot: { url } }
+        })
       commit(MutationTypes.SET_EMPLOYEES, trimmedData)
     } catch (error) {
       console.error(error, 'Error fetching employee list')
