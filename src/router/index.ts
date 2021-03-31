@@ -26,13 +26,13 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Score - The Name Game'
     },
-    beforeEnter (to, _from, next) {
-      if (!store.getters.isGameComplete) {
-        next('/')
-      } else {
-        next()
-      }
-    },
+    // beforeEnter (to, _from, next) {
+    //   if (!store.getters.isGameComplete) {
+    //     next('/')
+    //   } else {
+    //     next()
+    //   }
+    // },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
