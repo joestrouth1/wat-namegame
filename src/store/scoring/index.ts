@@ -205,7 +205,8 @@ export const actions: ActionTree<State, RootState> & Actions = {
       const randomSortedEmployees = rootState.employees.list
         .map(e => ({ ...e, sort: Math.random() }))
         .sort((a, b) => a.sort - b.sort)
-        .map(e => ({ ...e, sort: undefined }) as Employee)
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        .map(({ sort, ...rest }) => ({ ...rest }) as Employee)
 
       // group random employees in 5 sets of 6
       const employeeSets: Employee[][] = []
