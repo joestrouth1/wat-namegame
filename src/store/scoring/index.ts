@@ -8,17 +8,20 @@ import {
   CommitOptions,
   DispatchOptions
 } from 'vuex'
+import { nanoid } from 'nanoid'
 
 import { State as RootState } from '@/store'
 import { Employee, ActionTypes as EmployeeActionTypes } from '@/store/employees'
 
 export interface ScoringGuess {
+  id: string
   dateCreated: Date
   employee: Employee
   correct: boolean
 }
 
 export interface ScoringRound {
+  id: string
   employees: {
     selected: Employee
     options: Employee[]
@@ -27,34 +30,100 @@ export interface ScoringRound {
 }
 
 export type State = {
-  rounds: ScoringRound[]
+  rounds: ScoringRound[],
+  currentRoundId: string
 }
 
 const initialState: State = {
-  rounds: []
+  rounds: [],
+  currentRoundId: ''
+}
+
+// getters types
+export type Getters = {
+  allRounds(state: State): ScoringRound[]
+  currentRound(state: State): ScoringRound | null
+  lastGuess(
+    state: State,
+    getters: {
+      currentRound: ReturnType<Getters['currentRound']>
+    }
+  ): ScoringGuess | null
+  isGameComplete (state: State): boolean
+}
+
+// getters
+export const getters: GetterTree<State, RootState> & Getters = {
+  allRounds (state) {
+    return state.rounds
+  },
+  currentRound (state) {
+    const round = state.rounds.find(round => round.id === state.currentRoundId)
+    return round ?? null
+  },
+  lastGuess (_state, { currentRound }) {
+    if (!currentRound?.guesses?.length) return null
+
+    const { guesses } = currentRound
+    return guesses.reduce((mostRecent, nextGuess) => {
+      if (nextGuess.dateCreated > mostRecent.dateCreated) return nextGuess
+      return mostRecent
+    }, currentRound.guesses[0])
+  },
+  isGameComplete (state) {
+    return state.rounds.every(round => {
+      const hasGuesses = round.guesses.length > 0
+      const hasCorrectGuess = round.guesses.some(guess => guess.correct)
+      return hasGuesses && hasCorrectGuess
+    })
+  }
+}
+
+// resolved getters
+type GettersMap = {
+  [K in keyof Getters]: ReturnType<Getters[K]>
 }
 
 // mutations enums
 export enum MutationTypes {
   SET_ROUNDS = 'SET_ROUNDS',
+  SET_CURRENT_ROUND_ID = 'SET_CURRENT_ROUND_ID',
+  ADD_GUESS = 'ADD_GUESS'
 }
 
 // Mutation contracts
 export type Mutations<S = State> = {
   [MutationTypes.SET_ROUNDS](state: S, rounds: ScoringRound[]): void
+  [MutationTypes.SET_CURRENT_ROUND_ID](state: S, roundId: string): void
+  [MutationTypes.ADD_GUESS](state: S, payload: {
+    roundId: ScoringRound['id'],
+    guess: ScoringGuess
+  }): void
 }
 
 // Define mutations
 const mutations: MutationTree<State> & Mutations = {
-  [MutationTypes.SET_ROUNDS] (state: State, rounds: ScoringRound[]) {
+  [MutationTypes.SET_ROUNDS] (state, rounds) {
     state.rounds = rounds
+  },
+  [MutationTypes.SET_CURRENT_ROUND_ID] (state, roundId) {
+    state.currentRoundId = roundId
+  },
+  [MutationTypes.ADD_GUESS] (state, { roundId, guess }) {
+    const targetRound = state.rounds.find(({ id }) => id === roundId)
+    if (!targetRound) {
+      console.error('Failed to save guess, unknown scoring round')
+    } else {
+      targetRound.guesses.push(guess)
+    }
   }
 }
 
 // Action enums
 export enum ActionTypes {
   CREATE_ROUNDS = 'CREATE_ROUNDS',
-  TEST_ACTION = 'TEST_ACTION'
+  CREATE_GUESS = 'CREATE_GUESS',
+  ADVANCE_ROUND = 'ADVANCE_ROUND'
 }
 
 // Actions context
@@ -63,24 +132,28 @@ type AugmentedActionContext = {
     key: K,
     payload: Parameters<Mutations[K]>[1],
   ): ReturnType<Mutations[K]>
-} & Omit<ActionContext<State, RootState>, 'commit'>
+} & Omit<ActionContext<State, RootState>, 'commit' | 'getters'> & {
+  getters: GettersMap
+}
 
 // Actions contracts
 export interface Actions {
   [ActionTypes.CREATE_ROUNDS](
     context: AugmentedActionContext
   ): Promise<void>
-  [ActionTypes.TEST_ACTION](
+  [ActionTypes.CREATE_GUESS](
     context: AugmentedActionContext,
-    payload: { sample: Date }
+    payload: {
+      employee: Employee
+    }
+  ): void,
+  [ActionTypes.ADVANCE_ROUND](
+    context: AugmentedActionContext
   ): void
 }
 
 // Define actions
 export const actions: ActionTree<State, RootState> & Actions = {
-  [ActionTypes.TEST_ACTION] (context, payload) {
-    console.log(payload)
-  },
   async [ActionTypes.CREATE_ROUNDS] ({ commit, dispatch, rootState }) {
     if (!rootState.employees.list.length) {
       await dispatch(EmployeeActionTypes.GET_EMPLOYEES)
@@ -104,6 +177,7 @@ export const actions: ActionTree<State, RootState> & Actions = {
 
       const rounds: ScoringRound[] = employeeSets.map(options => {
         return {
+          id: nanoid(),
           employees: {
             selected: options[Math.floor(Math.random() * options.length)],
             options
@@ -112,19 +186,42 @@ export const actions: ActionTree<State, RootState> & Actions = {
         }
       })
       commit(MutationTypes.SET_ROUNDS, rounds)
+      commit(MutationTypes.SET_CURRENT_ROUND_ID, rounds[0].id)
     }
-  }
-}
+  },
+  [ActionTypes.CREATE_GUESS] ({ commit, getters }, { employee }) {
+    const currentRound = getters.currentRound
+    if (!currentRound) {
+      console.error('Failed to create guess, no current scoring round')
+    } else {
+      const { id, employees, guesses } = currentRound
 
-// getters types
-export type Getters = {
-  allRounds(state: State): ScoringRound[]
-}
+      const employeeAlreadyGuessed = guesses.some(guess => guess.employee.id === id)
+      const roundAlreadyCompleted = guesses.some(guess => guess.correct)
+      if (employeeAlreadyGuessed || roundAlreadyCompleted) return
 
-// getters
-export const getters: GetterTree<State, RootState> & Getters = {
-  allRounds: (state) => {
-    return state.rounds
+      const newGuess: ScoringGuess = {
+        id: nanoid(),
+        correct: employee.id === employees.selected.id,
+        dateCreated: new Date(),
+        employee
+      }
+      commit(MutationTypes.ADD_GUESS, { roundId: id, guess: newGuess })
+    }
+  },
+  [ActionTypes.ADVANCE_ROUND] ({ commit, state }) {
+    const newRound = state.rounds.find(round => {
+      const isRoundNew = round.guesses.length === 0
+      const isRoundIncomplete =
+        round.guesses.length > 0 &&
+        round.guesses.every(guess => !guess.correct)
+      return isRoundNew || isRoundIncomplete
+    })
+    if (!newRound) {
+      return console.error('Failed to advance round: all rounds complete')
+    } else {
+      commit(MutationTypes.SET_CURRENT_ROUND_ID, newRound.id)
+    }
   }
 }
 
@@ -139,9 +236,7 @@ export type Store<S = State> = Omit<
     options?: CommitOptions,
   ): ReturnType<Mutations[K]>
 } & {
-  getters: {
-    [K in keyof Getters]: ReturnType<Getters[K]>
-  }
+  getters: GettersMap
 } & {
   dispatch<K extends keyof Actions>(
     key: K,

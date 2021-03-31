@@ -6,10 +6,7 @@
       :label="(index + 1).toString()"
       :key="employee.id"
       @click="handleClick(employee)"
-    >
-      <span>{{ index + 1 }}</span>
-      {{ employee.firstName }} {{ employee.lastName }}
-    </EmployeeGridItem>
+    />
   </div>
 </template>
 
@@ -24,6 +21,12 @@ export default defineComponent({
   components: {
     EmployeeGridItem
   },
+  emits: {
+    guess: (payload: Employee) => {
+      if (!payload.id) return false
+      return true
+    }
+  },
   props: {
     round: {
       type: Object as PropType<ScoringRound>,
@@ -32,7 +35,7 @@ export default defineComponent({
   },
   methods: {
     handleClick (employee: Employee) {
-      alert(`Clicked: ${JSON.stringify(employee, null, 2)}`)
+      this.$emit('guess', employee)
     }
   }
 })
@@ -43,6 +46,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: var(--size-16);
   gap: var(--size-16);
   padding: 0 var(--size-16);
 }

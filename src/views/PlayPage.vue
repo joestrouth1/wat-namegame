@@ -3,7 +3,7 @@
     <SiteHeader back />
     <main class="main">
       <h1 class="heading">
-        <template v-if="!areRoundsLoaded">Loading...</template>
+        <template v-if="!currentRound">Loading...</template>
         <template v-else>
           <span class="lead">
             Which one of these good looking photos is the real
@@ -11,7 +11,11 @@
           {{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}
         </template>
       </h1>
-      <EmployeeGrid v-if="currentRound" :round="currentRound" />
+      <EmployeeGrid
+        v-if="currentRound"
+        :round="currentRound"
+        @guess="handleGuess"
+      />
       <p class="hint">
         <template v-if="!lastGuess">Choose the matching photo</template>
         <template v-else-if="lastGuess.correct === false">Try again!</template>
@@ -53,23 +57,33 @@ export default defineComponent({
     this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
   },
   computed: {
-    areRoundsLoaded () {
-      return !!this.$store.getters.allRounds.length
+    areRoundsLoaded (): boolean {
+      return !!this.$store.getters.currentRound
     },
-    currentRound (): ScoringRound {
-      return this.$store.getters.allRounds[this.roundNumber - 1]
+    currentRound (): ScoringRound | null {
+      return this.$store.getters.currentRound
     },
     selectedEmployee (): Employee | null {
       if (!this.currentRound) return null
       return this.currentRound.employees.selected
     },
     lastGuess (): ScoringGuess | null {
-      if (!this.currentRound?.guesses.length) return null
-      const latestGuess = this.currentRound.guesses.reduce((mostRecent, nextGuess) => {
-        if (nextGuess.dateCreated > mostRecent.dateCreated) return nextGuess
-        return mostRecent
-      }, this.currentRound.guesses[0])
-      return latestGuess
+      return this.$store.getters.lastGuess
+    },
+    isGameComplete (): boolean {
+      return this.$store.getters.isGameComplete
+    }
+  },
+  methods: {
+    handleGuess (employee: Employee) {
+      this.$store.dispatch(ScoringActions.CREATE_GUESS, { employee })
+    },
+    handleContinue () {
+      if (this.isGameComplete) {
+        this.$router.push('/score')
+      } else {
+        this.$store.dispatch(ScoringActions.ADVANCE_ROUND)
+      }
     }
   }
 })
@@ -81,14 +95,8 @@ export default defineComponent({
 .play {
   display: flex;
   flex-flow: column nowrap;
-  gap: var(--size-40);
-
   min-height: 100%;
   overflow-x: hidden;
-
-  @media (min-width: $desktop) {
-    gap: var(--size-64);
-  }
 }
 
 .main {
@@ -99,9 +107,13 @@ export default defineComponent({
   align-items: center;
   max-width: 58.75rem;
   margin: 0 auto;
-  padding-bottom: var(--size-40);
+  padding: var(--size-40) 0;
 
   background-color: white;
+
+  @media (min-width: $desktop) {
+    padding-top: var(--size-64);
+  }
 }
 
 .heading {

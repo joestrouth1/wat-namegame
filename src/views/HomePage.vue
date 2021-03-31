@@ -76,6 +76,7 @@ export default defineComponent({
   grid-area: content;
   display: flex;
   flex-flow: column nowrap;
+  // TODO: replace with margin or space for compat reasons
   gap: var(--size-24);
 }
 

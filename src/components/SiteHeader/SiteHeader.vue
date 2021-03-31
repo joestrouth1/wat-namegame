@@ -50,6 +50,7 @@ export default defineComponent({
   flex-flow: row nowrap;
   justify-content: flex-start;
   align-items: center;
+  // TODO: replace with margin or spacer for compat reasons
   gap: var(--size-8);
 }
 
