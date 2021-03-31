@@ -82,6 +82,7 @@ export const getters: GetterTree<State, RootState> & Getters = {
     }, currentRound.guesses[0])
   },
   isGameComplete (state) {
+    if (!state.rounds.length) return false
     return state.rounds.every(round => {
       const hasGuesses = round.guesses.length > 0
       const hasCorrectGuess = round.guesses.some(guess => guess.correct)

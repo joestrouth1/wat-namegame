@@ -97,7 +97,7 @@ export default defineComponent({
     padding-top: var(--size-64);
 
     * + * {
-      margin-top: var(--size-64);
+      margin-top: var(--size-40);
     }
   }
 }

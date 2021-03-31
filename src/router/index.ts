@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import PlayPage from '../views/PlayPage.vue'
+import { store } from '@/store'
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -25,6 +26,14 @@ const routes: Array<RouteRecordRaw> = [
     meta: {
       title: 'Score - The Name Game'
     },
+    beforeEnter (to, _from, next) {
+      console.log({ complete: store.getters.isGameComplete })
+      if (!store.getters.isGameComplete) {
+        next('/')
+      } else {
+        next()
+      }
+    },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -34,7 +43,11 @@ const routes: Array<RouteRecordRaw> = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) return savedPosition
+    return { top: 0 }
+  }
 })
 
 router.afterEach((to) => {
