@@ -2,6 +2,10 @@
   <button type="button" class="button">
     <img :src="employee.headshot.url" alt="" class="headshot" />
     <span class="label">{{ label }}</span>
+    <span :class="{ status: true, correct }" v-if="hasBeenGuessed">
+      <img v-if="correct" src="@/assets/icons/correct.svg" alt="Correct!" />
+      <img v-else src="@/assets/icons/incorrect.svg" alt="Incorrect!" />
+    </span>
   </button>
 </template>
 
@@ -16,15 +20,27 @@ export default defineComponent({
       type: Object as PropType<Employee>,
       required: true
     },
+    correct: {
+      type: Boolean,
+      required: false
+    },
     label: {
       type: String,
       required: true
+    }
+  },
+  computed: {
+    hasBeenGuessed (): boolean {
+      if (typeof this.correct !== 'undefined') return true
+      return false
     }
   }
 })
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/breakpoints";
+
 .button {
   appearance: none;
   background: none;
@@ -47,10 +63,22 @@ export default defineComponent({
   }
 }
 
+.headshot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .label {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 1;
   display: inline-block;
   padding: var(--size-8);
 
@@ -66,14 +94,26 @@ export default defineComponent({
   border-bottom: 1px solid white;
 }
 
-.headshot {
+.status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+
+  background-color: rgba(255, 59, 48, 0.6);
+
+  &.correct {
+    background-color: rgba(52, 199, 89, 0.6);
+  }
+
+  img {
+    width: 50%;
+    height: 50%;
+  }
 }
 </style>

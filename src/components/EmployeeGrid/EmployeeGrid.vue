@@ -3,8 +3,9 @@
     <EmployeeGridItem
       v-for="(employee, index) in round.employees.options"
       :employee="employee"
-      :label="(index + 1).toString()"
       :key="employee.id"
+      :label="(index + 1).toString()"
+      :correct="isCorrect(employee)"
       @click="handleClick(employee)"
     />
   </div>
@@ -36,6 +37,10 @@ export default defineComponent({
   methods: {
     handleClick (employee: Employee) {
       this.$emit('guess', employee)
+    },
+    isCorrect (employee: Employee) {
+      return this.round.guesses.find(
+        (guess) => guess.employee.id === employee.id)?.correct
     }
   }
 })
