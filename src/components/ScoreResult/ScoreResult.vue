@@ -25,11 +25,15 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .score-result {
+  --score-result-color-text: var(--color-blue-dark);
+
   display: flex;
   flex-flow: column nowrap;
   align-items: center;
 
   padding: 0 var(--size-16);
+
+  color: var(--score-result-color-text);
 }
 
 .value {

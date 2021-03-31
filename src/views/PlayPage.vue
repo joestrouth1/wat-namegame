@@ -129,15 +129,19 @@ export default defineComponent({
 }
 
 .heading {
-  margin: 0;
   margin: 0 0 var(--size-24);
 
   font-size: var(--size-24);
   font-weight: var(--font-weight-medium);
   line-height: var(--size-32);
+  color: var(--color-blue-dark);
 
   @media (min-width: $desktop) {
     margin-bottom: var(--size-64);
+
+    font-size: var(--size-40);
+    font-weight: var(--font-weight-bold);
+    line-height: 1.2;
   }
 }
 

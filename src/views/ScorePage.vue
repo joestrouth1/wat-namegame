@@ -116,8 +116,9 @@ export default defineComponent({
   @media (min-width: $tablet) {
     flex-flow: row wrap;
     justify-content: space-around;
+    justify-content: space-evenly; // not supported everywhere
     max-width: 58.75rem;
-    margin: 0 auto;
+    margin: var(--size-64) auto 0;
 
     * + * {
       margin-top: 0;

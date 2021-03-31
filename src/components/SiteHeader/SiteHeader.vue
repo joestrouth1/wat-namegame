@@ -52,12 +52,21 @@ export default defineComponent({
 }
 
 .nav {
+  --nav-padding-vertical: var(--size-16);
+  --nav-padding-left: var(--size-32);
+  --nav-padding-right: var(--size-32);
+
   display: grid;
   grid-template-rows: auto;
   grid-template-columns: auto 1fr;
   justify-items: stretch;
   align-items: center;
-  padding: var(--size-16) var(--size-32);
+  padding: var(--nav-padding-vertical) var(--nav-padding-right)
+    var(--nav-padding-vertical) var(--nav-padding-left);
+
+  @media (min-width: $tablet) {
+    --nav-padding-vertical: var(--size-32);
+  }
 
   .link-container {
     grid-row: 1;
@@ -67,8 +76,9 @@ export default defineComponent({
   }
 
   &.back {
-    padding: var(--size-8);
-    padding-right: var(--size-24);
+    --nav-padding-vertical: var(--size-8);
+    --nav-padding-left: var(--size-8);
+    --nav-padding-right: var(--size-24);
     justify-content: flex-start;
 
     @media (max-width: $mobile) {
@@ -78,6 +88,10 @@ export default defineComponent({
       .link-container {
         grid-column: 2/3;
       }
+    }
+    @media (min-width: $tablet) {
+      --nav-padding-left: var(--size-24);
+      --nav-padding-vertical: var(--size-32);
     }
   }
 }
