@@ -11,7 +11,11 @@
           {{ selectedEmployee.firstName }} {{ selectedEmployee.lastName }}
         </template>
       </h1>
-      <EmployeeGrid v-if="currentRound" :round="currentRound" />
+      <EmployeeGrid
+        v-if="currentRound"
+        :round="currentRound"
+        @guess="handleGuess"
+      />
       <p class="hint">
         <template v-if="!lastGuess">Choose the matching photo</template>
         <template v-else-if="lastGuess.correct === false">Try again!</template>
@@ -65,11 +69,21 @@ export default defineComponent({
     },
     lastGuess (): ScoringGuess | null {
       return this.$store.getters.lastGuess
+    },
+    isGameComplete (): boolean {
+      return this.$store.getters.isGameComplete
     }
   },
   methods: {
+    handleGuess (employee: Employee) {
+      this.$store.dispatch(ScoringActions.CREATE_GUESS, { employee })
+    },
     handleContinue () {
-      alert('continue')
+      if (this.isGameComplete) {
+        this.$router.push('/score')
+      } else {
+        this.$store.dispatch(ScoringActions.ADVANCE_ROUND)
+      }
     }
   }
 })

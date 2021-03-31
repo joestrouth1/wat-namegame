@@ -6,23 +6,26 @@
       :label="(index + 1).toString()"
       :key="employee.id"
       @click="handleClick(employee)"
-    >
-      <span>{{ index + 1 }}</span>
-      {{ employee.firstName }} {{ employee.lastName }}
-    </EmployeeGridItem>
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { Employee } from '@/store/employees'
-import { ActionTypes, ScoringRound } from '@/store/scoring'
+import { ScoringRound } from '@/store/scoring'
 import EmployeeGridItem from './EmployeeGridItem.vue'
 
 export default defineComponent({
   name: 'EmployeeGrid',
   components: {
     EmployeeGridItem
+  },
+  emits: {
+    guess: (payload: Employee) => {
+      if (!payload.id) return false
+      return true
+    }
   },
   props: {
     round: {
@@ -32,7 +35,7 @@ export default defineComponent({
   },
   methods: {
     handleClick (employee: Employee) {
-      this.$store.dispatch(ActionTypes.CREATE_GUESS, { employee })
+      this.$emit('guess', employee)
     }
   }
 })

@@ -49,6 +49,7 @@ export type Getters = {
       currentRound: ReturnType<Getters['currentRound']>
     }
   ): ScoringGuess | null
+  isGameComplete (state: State): boolean
 }
 
 // getters
@@ -68,6 +69,13 @@ export const getters: GetterTree<State, RootState> & Getters = {
       if (nextGuess.dateCreated > mostRecent.dateCreated) return nextGuess
       return mostRecent
     }, currentRound.guesses[0])
+  },
+  isGameComplete (state) {
+    return state.rounds.every(round => {
+      const hasGuesses = round.guesses.length > 0
+      const hasCorrectGuess = round.guesses.some(guess => guess.correct)
+      return hasGuesses && hasCorrectGuess
+    })
   }
 }
 
@@ -114,7 +122,8 @@ const mutations: MutationTree<State> & Mutations = {
 // Action enums
 export enum ActionTypes {
   CREATE_ROUNDS = 'CREATE_ROUNDS',
-  CREATE_GUESS = 'CREATE_GUESS'
+  CREATE_GUESS = 'CREATE_GUESS',
+  ADVANCE_ROUND = 'ADVANCE_ROUND'
 }
 
 // Actions context
@@ -137,6 +146,9 @@ export interface Actions {
     payload: {
       employee: Employee
     }
+  ): void,
+  [ActionTypes.ADVANCE_ROUND](
+    context: AugmentedActionContext
   ): void
 }
 
@@ -183,7 +195,11 @@ export const actions: ActionTree<State, RootState> & Actions = {
       console.error('Failed to create guess, no current scoring round')
     } else {
       const { id, employees, guesses } = currentRound
-      if (guesses.some(guess => guess.employee.id === employee.id)) return
+
+      const employeeAlreadyGuessed = guesses.some(guess => guess.employee.id === id)
+      const roundAlreadyCompleted = guesses.some(guess => guess.correct)
+      if (employeeAlreadyGuessed || roundAlreadyCompleted) return
+
       const newGuess: ScoringGuess = {
         id: nanoid(),
         correct: employee.id === employees.selected.id,
@@ -191,6 +207,20 @@ export const actions: ActionTree<State, RootState> & Actions = {
         employee
       }
       commit(MutationTypes.ADD_GUESS, { roundId: id, guess: newGuess })
+    }
+  },
+  [ActionTypes.ADVANCE_ROUND] ({ commit, state }) {
+    const newRound = state.rounds.find(round => {
+      const isRoundNew = round.guesses.length === 0
+      const isRoundIncomplete =
+        round.guesses.length > 0 &&
+        round.guesses.every(guess => !guess.correct)
+      return isRoundNew || isRoundIncomplete
+    })
+    if (!newRound) {
+      return console.error('Failed to advance round: all rounds complete')
+    } else {
+      commit(MutationTypes.SET_CURRENT_ROUND_ID, newRound.id)
     }
   }
 }
