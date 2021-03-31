@@ -34,6 +34,7 @@ Design Tokens
   --size-32: 2rem;
   --size-40: 2.5rem;
   --size-64: 4rem;
+  --size-72: 4.5rem;
 
   // Color
   --color-blue-dark: rgba(34, 53, 71, 1);

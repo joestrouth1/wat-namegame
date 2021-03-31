@@ -7,7 +7,9 @@
       <p class="intro" data-testid="intro">
         Try matching the WillowTree Employee to their photo
       </p>
-      <SiteButton element="router-link" to="/play">Play!</SiteButton>
+      <SiteButton element="router-link" to="/play" class="play-link">
+        Play!
+      </SiteButton>
     </div>
   </main>
 </template>
@@ -27,6 +29,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/breakpoints";
+
 .home {
   --home-padding-top: var(--size-40);
   --home-padding-bottom: var(--size-40);
@@ -62,6 +66,10 @@ export default defineComponent({
 .logo {
   max-width: 29rem;
   transform: scale(1.15);
+
+  @media (min-width: $desktop) {
+    transform: scale(1);
+  }
 }
 
 .content {
@@ -76,11 +84,37 @@ export default defineComponent({
   grid-area: content;
   display: flex;
   flex-flow: column nowrap;
-  // TODO: replace with margin or space for compat reasons
-  gap: var(--size-24);
+  align-items: center;
+
+  * + * {
+    margin-top: var(--size-24);
+  }
+
+  @media (min-width: $desktop) {
+    font-size: var(--size-24);
+    font-weight: var(--font-weight-normal);
+    line-height: var(--size-32);
+    padding-top: var(--size-64);
+
+    * + * {
+      margin-top: var(--size-64);
+    }
+  }
 }
 
 .intro {
-  padding: 0 var(--size-40);
+  margin: 0;
+  padding: var(--size-20) var(--size-40);
+
+  @media (min-width: $desktop) {
+    padding: 0 var(--size-40);
+  }
+}
+
+.play-link {
+  width: 100%;
+  @media (min-width: $tablet) {
+    max-width: 22.5rem;
+  }
 }
 </style>
