@@ -2,7 +2,7 @@
   <div class="play page">
     <SiteHeader back />
     <main class="main">
-      <h1 class="heading">
+      <h1 class="heading focus-visible-only" tabindex="-1" ref="heading">
         <template v-if="!currentRound">Loading...</template>
         <template v-else>
           <span class="lead">
@@ -17,12 +17,22 @@
         @guess="handleGuess"
         class="employee-grid"
       />
-      <p class="hint">
+      <p tabindex="-1" ref="hint" class="hint focus-visible-only">
         <template v-if="!lastGuess">Choose the matching photo</template>
         <template v-else-if="lastGuess.correct === false">Try again!</template>
         <template v-else>Correct!</template>
       </p>
-      <SiteButton @click="handleContinue" v-if="lastGuess?.correct">
+      <SiteButton
+        @click="handleContinue"
+        v-bind="
+          !lastGuess?.correct
+            ? {
+                variant: 'outline',
+                ['aria-disabled']: true,
+              }
+            : {}
+        "
+      >
         Continue
       </SiteButton>
     </main>
@@ -48,11 +58,6 @@ export default defineComponent({
     SiteButton,
     SiteHeader,
     EmployeeGrid
-  },
-  data () {
-    return {
-      roundNumber: 1
-    }
   },
   created () {
     this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
@@ -80,10 +85,14 @@ export default defineComponent({
       this.$store.dispatch(ScoringActions.CREATE_GUESS, { employee })
     },
     handleContinue () {
-      if (this.isGameComplete) {
+      const refs = this.$refs as { hint: HTMLElement, heading: HTMLElement }
+      if (!this.lastGuess?.correct) {
+        refs.hint.focus()
+      } else if (this.isGameComplete) {
         this.$router.push('/score')
       } else {
         this.$store.dispatch(ScoringActions.ADVANCE_ROUND)
+        refs.heading.focus()
       }
     }
   }
@@ -105,11 +114,11 @@ export default defineComponent({
 
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
   max-width: 58.75rem;
-  padding: var(--size-40) 0;
+  padding: var(--size-40) var(--size-16);
 
   background-color: white;
+  text-align: center;
 
   @media (min-width: $desktop) {
     padding-top: var(--size-64);
@@ -117,9 +126,12 @@ export default defineComponent({
 }
 
 .heading {
-  text-align: center;
   margin: 0;
   padding: 0 0 var(--size-24);
+
+  font-size: var(--size-24);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--size-32);
 
   @media (min-width: $desktop) {
     padding-bottom: var(--size-64);
@@ -129,17 +141,13 @@ export default defineComponent({
 .lead {
   font-size: var(--size-24);
   font-weight: var(--font-weight-normal);
-  line-height: 1.333;
+  line-height: var(--size-32);
 
   display: none;
   @media (min-width: $desktop) {
     display: block;
-    margin-bottom: var(--size-16);
+    padding-bottom: var(--size-16);
   }
-}
-
-.employee-grid {
-  align-self: stretch;
 }
 
 .hint {
@@ -147,6 +155,6 @@ export default defineComponent({
   font-weight: var(--font-weight-normal);
   line-height: 1.2;
   margin: 0;
-  padding-top: var(--size-24);
+  padding: var(--size-24) 0;
 }
 </style>

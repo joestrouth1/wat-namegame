@@ -37,6 +37,7 @@ Design Tokens
   --size-72: 4.5rem;
 
   // Color
+  --color-blue: rgba(21, 101, 157, 1);
   --color-blue-dark: rgba(34, 53, 71, 1);
 
   // Type

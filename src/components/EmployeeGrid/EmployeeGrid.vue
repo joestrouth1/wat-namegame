@@ -48,6 +48,5 @@ export default defineComponent({
   grid-template-rows: 1fr 1fr 1fr;
   grid-gap: var(--size-16);
   gap: var(--size-16);
-  padding: 0 var(--size-16);
 }
 </style>
