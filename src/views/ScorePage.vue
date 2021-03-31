@@ -6,25 +6,24 @@
         <img alt="" class="illustration" src="@/assets/illustration.svg" />
         <h1 class="heading">
           Congratulations, you scored
-          {{ finalScore.correct }}/{{ finalScore.total }}!
+          {{ score.correct }}/{{ score.total }}!
         </h1>
-        <SiteButton class="link" element="router-link" to="/">
-          Return to Home
-        </SiteButton>
       </div>
+      <SiteButton class="link" element="router-link" to="/">
+        Return to Home
+      </SiteButton>
       <div class="results">
-        {{ JSON.stringify(finalScore, null, 2) }}
         <ScoreResult
           label="Correct Selections"
-          :value="`${finalScore.stats.percentCorrect}%`"
+          :value="score.stats.percentCorrect"
         />
         <ScoreResult
           label="Incorrect Selections"
-          :value="`${finalScore.stats.percentIncorrect}%`"
+          :value="score.stats.percentIncorrect"
         />
         <ScoreResult
           label="Avg. Selection Time"
-          :value="`${finalScore.stats.avgSelectionTime} sec`"
+          :value="score.stats.avgSelectionTime"
         />
       </div>
     </main>
@@ -45,8 +44,21 @@ export default defineComponent({
     ScoreResult
   },
   computed: {
-    finalScore () {
-      return this.$store.getters.finalScore
+    score () {
+      function formatPercent (value: number): string {
+        return `${Math.round(value * 100)}%`
+      }
+      const { correct, total, stats } = this.$store.getters.finalScore
+      const formattedStats = {
+        percentCorrect: formatPercent(stats.percentCorrect),
+        percentIncorrect: formatPercent(stats.percentIncorrect),
+        avgSelectionTime: `${stats.avgSelectionTime.toFixed(1)} sec`
+      }
+      return {
+        correct,
+        total,
+        stats: formattedStats
+      }
     }
   }
 })
@@ -58,6 +70,7 @@ export default defineComponent({
   flex-flow: column nowrap;
   min-height: 100%;
   overflow-x: hidden;
+  padding-bottom: var(--size-40);
 }
 
 .hero {
@@ -68,9 +81,6 @@ export default defineComponent({
   padding: var(--size-40) var(--size-16);
 
   background-color: var(--color-blue-dark);
-}
-
-.illustration {
 }
 
 .heading {
@@ -85,7 +95,8 @@ export default defineComponent({
 }
 
 .link {
-  align-self: stretch;
+  transform: translateY(-50%);
+  margin: 0 var(--size-16);
 }
 
 .results {

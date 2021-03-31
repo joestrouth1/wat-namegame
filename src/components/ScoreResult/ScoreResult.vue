@@ -43,6 +43,6 @@ export default defineComponent({
 .label {
   font-size: var(--size-24);
   font-weight: var(--font-weight-normal);
-  line-height: 1.3333;
+  line-height: 1.3333333;
 }
 </style>
