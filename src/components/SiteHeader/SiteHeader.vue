@@ -35,6 +35,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/breakpoints";
+
 .header {
   --header-color-background: var(--color-blue-dark);
 
@@ -44,14 +46,20 @@ export default defineComponent({
 }
 
 .nav {
-  padding: var(--size-8);
-  padding-right: var(--size-16);
   display: flex;
   flex-flow: row nowrap;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  // TODO: replace with margin or spacer for compat reasons
-  gap: var(--size-8);
+  padding: var(--size-16) var(--size-32);
+
+  &.back {
+    padding: var(--size-8);
+    padding-right: var(--size-24);
+    justify-content: flex-start;
+    * + * {
+      margin-left: var(--size-8);
+    }
+  }
 }
 
 .back-button {
@@ -63,9 +71,7 @@ export default defineComponent({
 }
 
 .link {
-  flex: 1;
   line-height: 1;
-  margin: 0;
 }
 
 .wordmark {

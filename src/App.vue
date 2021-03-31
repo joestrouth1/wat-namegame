@@ -18,7 +18,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-@import url("~modern-normalize/modern-normalize.css");
+@import "~modern-normalize/modern-normalize.css";
 
 /**
 Design Tokens
@@ -29,6 +29,7 @@ Design Tokens
   --size-8: 0.5rem;
   --size-12: 0.75rem;
   --size-16: 1rem;
+  --size-20: 1.25rem;
   --size-24: 1.5rem;
   --size-32: 2rem;
   --size-40: 2.5rem;

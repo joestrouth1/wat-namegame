@@ -19,12 +19,10 @@ export default defineComponent({
   props: {
     variant: {
       type: String as PropType<'primary' | 'link'>,
-      required: false,
       default: 'primary'
     },
     element: {
       type: String as PropType<'router-link' | 'button'>,
-      required: false,
       default: 'button'
     }
   },
@@ -48,7 +46,7 @@ export default defineComponent({
 
   --button-font-size: var(--size-20);
   --button-font-weight: var(--font-weight-medium);
-  --button-line-height: var(--size-24);
+  --button-line-height: 1.2;
   --button-text-decoration: none;
 
   display: flex;
