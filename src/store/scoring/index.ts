@@ -29,6 +29,16 @@ export interface ScoringRound {
   guesses: ScoringGuess[]
 }
 
+export interface FinalScore {
+  correct: number
+  total: number
+  stats: {
+    percentCorrect: number
+    percentIncorrect: number
+    avgSelectionTime: number
+  }
+}
+
 export type State = {
   rounds: ScoringRound[],
   currentRoundId: string
@@ -50,6 +60,7 @@ export type Getters = {
     }
   ): ScoringGuess | null
   isGameComplete (state: State): boolean
+  finalScore(state: State): FinalScore
 }
 
 // getters
@@ -76,6 +87,37 @@ export const getters: GetterTree<State, RootState> & Getters = {
       const hasCorrectGuess = round.guesses.some(guess => guess.correct)
       return hasGuesses && hasCorrectGuess
     })
+  },
+  finalScore (state) {
+    const { rounds } = state
+    const correct = rounds.reduce(
+      (acc, next) => next.guesses.length === 1 ? ++acc : acc,
+      0
+    )
+    const total = rounds.length
+
+    const allGuesses = rounds.flatMap(({ guesses }) => guesses)
+    const correctGuesses = allGuesses.filter(guess => guess.correct)
+    const percentCorrect = correctGuesses.length / allGuesses.length
+    const percentIncorrect = 1 - percentCorrect
+
+    const sortedGuessTimestamps = allGuesses
+      .map(({ dateCreated }) => Number(dateCreated))
+      .sort((a, b) => a - b)
+    const firstGuess = sortedGuessTimestamps.shift() as number
+    const lastGuess = sortedGuessTimestamps.pop() as number
+    const gameDurationInSeconds = (lastGuess - firstGuess) / 1000
+    const avgSelectionTime = gameDurationInSeconds / allGuesses.length
+
+    return {
+      correct,
+      total,
+      stats: {
+        avgSelectionTime,
+        percentCorrect,
+        percentIncorrect
+      }
+    }
   }
 }
 
