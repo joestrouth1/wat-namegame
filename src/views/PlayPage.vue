@@ -32,6 +32,7 @@
               }
             : {}
         "
+        class="continue"
       >
         Continue
       </SiteButton>
@@ -110,11 +111,12 @@ export default defineComponent({
 }
 
 .main {
+  align-self: center;
   flex-grow: 1;
+  width: 100%;
 
   display: flex;
   flex-flow: column nowrap;
-  max-width: 58.75rem;
   padding: var(--size-40) var(--size-16);
 
   background-color: white;
@@ -122,6 +124,7 @@ export default defineComponent({
 
   @media (min-width: $desktop) {
     padding-top: var(--size-64);
+    max-width: 58.75rem;
   }
 }
 
@@ -156,5 +159,13 @@ export default defineComponent({
   line-height: 1.2;
   margin: 0;
   padding: var(--size-24) 0;
+}
+
+.continue {
+  align-self: center;
+  width: 100%;
+  @media (min-width: $tablet) {
+    max-width: 22.5rem;
+  }
 }
 </style>

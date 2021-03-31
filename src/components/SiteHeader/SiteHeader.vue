@@ -10,9 +10,15 @@
       >
         <img src="@/assets/icons/arrow-left.svg" alt="Back" />
       </site-button>
-      <router-link to="/" class="link">
-        <img src="@/assets/wordmark.svg" alt="The Name Game" class="wordmark" />
-      </router-link>
+      <div class="link-container">
+        <router-link to="/" class="link">
+          <img
+            src="@/assets/wordmark.svg"
+            alt="The Name Game"
+            class="wordmark"
+          />
+        </router-link>
+      </div>
     </nav>
   </header>
 </template>
@@ -46,18 +52,32 @@ export default defineComponent({
 }
 
 .nav {
-  display: flex;
-  flex-flow: row nowrap;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: auto;
+  grid-template-columns: auto 1fr;
+  justify-items: stretch;
   align-items: center;
   padding: var(--size-16) var(--size-32);
+
+  .link-container {
+    grid-row: 1;
+    grid-column: 1/3;
+    line-height: 1;
+    text-align: center;
+  }
 
   &.back {
     padding: var(--size-8);
     padding-right: var(--size-24);
     justify-content: flex-start;
-    * + * {
-      margin-left: var(--size-8);
+
+    @media (max-width: $mobile) {
+      * + * {
+        margin-left: var(--size-8);
+      }
+      .link-container {
+        grid-column: 2/3;
+      }
     }
   }
 }
@@ -66,12 +86,10 @@ export default defineComponent({
   --button-padding-horizontal: var(--size-8);
   --button-padding-vertical: var(--size-8);
 
+  grid-column: 1/2;
+  grid-row: 1;
   color: white;
   text-decoration: none;
-}
-
-.link {
-  line-height: 1;
 }
 
 .wordmark {

@@ -47,11 +47,21 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/breakpoints";
+
 .employee-grid {
+  --employee-grid-columns: 2;
+  --employee-grid-rows: 3;
+
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-columns: repeat(var(--employee-grid-columns), 1fr);
+  grid-template-rows: repeat(var(--employee-grid-rows), 1fr);
   grid-gap: var(--size-16);
   gap: var(--size-16);
+
+  @media (min-width: $tablet) {
+    --employee-grid-columns: 3;
+    --employee-grid-rows: 2;
+  }
 }
 </style>
