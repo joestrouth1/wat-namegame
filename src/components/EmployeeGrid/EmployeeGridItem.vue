@@ -1,7 +1,7 @@
 <template>
   <button type="button" class="button">
-    <span class="label">{{ label }}</span>
     <img :src="employee.headshot.url" alt="" class="headshot" />
+    <span class="label">{{ label }}</span>
   </button>
 </template>
 
@@ -33,7 +33,13 @@ export default defineComponent({
   overflow: hidden;
   padding: 0;
   position: relative;
-  aspect-ratio: 1 / 1;
+
+  // aspect-ratio hack
+  &:before {
+    display: block;
+    padding-top: 100%;
+    content: "";
+  }
 
   &:hover,
   &:focus {
@@ -61,6 +67,11 @@ export default defineComponent({
 }
 
 .headshot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;

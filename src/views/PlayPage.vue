@@ -15,6 +15,7 @@
         v-if="currentRound"
         :round="currentRound"
         @guess="handleGuess"
+        class="employee-grid"
       />
       <p class="hint">
         <template v-if="!lastGuess">Choose the matching photo</template>
@@ -106,7 +107,6 @@ export default defineComponent({
   flex-flow: column nowrap;
   align-items: center;
   max-width: 58.75rem;
-  margin: 0 auto;
   padding: var(--size-40) 0;
 
   background-color: white;
@@ -136,6 +136,10 @@ export default defineComponent({
     display: block;
     margin-bottom: var(--size-16);
   }
+}
+
+.employee-grid {
+  align-self: stretch;
 }
 
 .hint {
