@@ -65,6 +65,8 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+@import "@/assets/styles/breakpoints";
+
 .score {
   display: flex;
   flex-flow: column nowrap;
@@ -97,6 +99,11 @@ export default defineComponent({
 .link {
   transform: translateY(-50%);
   margin: 0 var(--size-16);
+  max-width: 100%;
+  @media (min-width: $tablet) {
+    margin: 0 auto;
+    max-width: 22.5rem;
+  }
 }
 
 .results {
@@ -104,6 +111,17 @@ export default defineComponent({
   flex-flow: column nowrap;
   * + * {
     margin-top: var(--size-24);
+  }
+
+  @media (min-width: $tablet) {
+    flex-flow: row wrap;
+    justify-content: space-around;
+    max-width: 58.75rem;
+    margin: 0 auto;
+
+    * + * {
+      margin-top: 0;
+    }
   }
 }
 </style>

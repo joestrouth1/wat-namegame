@@ -130,14 +130,14 @@ export default defineComponent({
 
 .heading {
   margin: 0;
-  padding: 0 0 var(--size-24);
+  margin: 0 0 var(--size-24);
 
   font-size: var(--size-24);
   font-weight: var(--font-weight-medium);
   line-height: var(--size-32);
 
   @media (min-width: $desktop) {
-    padding-bottom: var(--size-64);
+    margin-bottom: var(--size-64);
   }
 }
 

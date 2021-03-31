@@ -27,7 +27,6 @@ const routes: Array<RouteRecordRaw> = [
       title: 'Score - The Name Game'
     },
     beforeEnter (to, _from, next) {
-      console.log({ complete: store.getters.isGameComplete })
       if (!store.getters.isGameComplete) {
         next('/')
       } else {
@@ -44,7 +43,7 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
-  scrollBehavior (to, from, savedPosition) {
+  scrollBehavior (_to, _from, savedPosition) {
     if (savedPosition) return savedPosition
     return { top: 0 }
   }

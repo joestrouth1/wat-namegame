@@ -52,7 +52,7 @@ Base
 html,
 body,
 #app {
-  height: 100%;
+  min-height: 100vh;
   overflow: auto;
   line-height: 1.25;
 }
