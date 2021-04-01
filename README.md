@@ -1,5 +1,7 @@
 # wat-namegame
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/35215cd1-f5d0-42dc-9ff3-2682be4d452c/deploy-status)](https://app.netlify.com/sites/wat-namegame/deploys)
+
 A web game where users earn points for putting faces with names.
 
 ## Get started - clone and install
