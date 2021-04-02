@@ -60,9 +60,6 @@ export default defineComponent({
     SiteHeader,
     EmployeeGrid
   },
-  created () {
-    this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
-  },
   computed: {
     areRoundsLoaded (): boolean {
       return !!this.$store.getters.currentRound
@@ -80,6 +77,9 @@ export default defineComponent({
     isGameComplete (): boolean {
       return this.$store.getters.isGameComplete
     }
+  },
+  created () {
+    this.$store.dispatch(ScoringActions.CREATE_ROUNDS)
   },
   methods: {
     handleGuess (employee: Employee) {

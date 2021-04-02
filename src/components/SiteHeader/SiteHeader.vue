@@ -30,12 +30,12 @@ import SiteButton from '../SiteButton/SiteButton.vue'
 
 export default defineComponent({
   name: 'SiteHeader',
-  props: {
-    back: Boolean
-  },
   components: {
     RouterLink,
     SiteButton
+  },
+  props: {
+    back: Boolean
   }
 })
 </script>

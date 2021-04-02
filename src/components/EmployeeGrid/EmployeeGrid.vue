@@ -22,16 +22,16 @@ export default defineComponent({
   components: {
     EmployeeGridItem
   },
-  emits: {
-    guess: (payload: Employee) => {
-      if (!payload.id) return false
-      return true
-    }
-  },
   props: {
     round: {
       type: Object as PropType<ScoringRound>,
       required: true
+    }
+  },
+  emits: {
+    guess: (payload: Employee) => {
+      if (!payload.id) return false
+      return true
     }
   },
   methods: {
