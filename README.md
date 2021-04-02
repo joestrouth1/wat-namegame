@@ -106,3 +106,7 @@ Commitizen will prompt you to specify the type and scope of your changes, whethe
 
 Please use these prompts rather than directly passing an irregular message with `-m`.
 Doing so could allow for auto-generated changelogs and reports in the future.
+
+## Other docs
+
+There are some other notes about this project in [/docs](https://github.com/joestrouth1/wat-namegame/tree/main/docs).
