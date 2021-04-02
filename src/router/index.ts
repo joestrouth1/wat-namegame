@@ -44,6 +44,10 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
   scrollBehavior (_to, _from, savedPosition) {
+    // Can't scroll in Jest tests/JSDOM
+    if (process.env.NODE_ENV === 'test') {
+      return
+    }
     if (savedPosition) return savedPosition
     return { top: 0 }
   }

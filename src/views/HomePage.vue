@@ -7,7 +7,12 @@
       <p class="intro" data-testid="intro">
         Try matching the WillowTree Employee to their photo
       </p>
-      <SiteButton element="router-link" to="/play" class="play-link">
+      <SiteButton
+        element="router-link"
+        to="/play"
+        class="play-link"
+        data-testid="play-link"
+      >
         Play!
       </SiteButton>
     </div>
