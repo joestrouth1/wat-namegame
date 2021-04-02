@@ -5,8 +5,8 @@
         v-if="back"
         aria-label="Back"
         variant="link"
-        @click="$router.back()"
         class="back-button"
+        @click="$router.back()"
       >
         <img src="@/assets/icons/arrow-left.svg" alt="Back" />
       </site-button>

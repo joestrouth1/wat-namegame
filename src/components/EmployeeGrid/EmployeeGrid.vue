@@ -2,8 +2,8 @@
   <div class="employee-grid">
     <EmployeeGridItem
       v-for="(employee, index) in round.employees.options"
-      :employee="employee"
       :key="employee.id"
+      :employee="employee"
       :label="(index + 1).toString()"
       :correct="isCorrect(employee)"
       @click="handleClick(employee)"

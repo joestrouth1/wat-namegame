@@ -2,7 +2,7 @@
   <div class="play page">
     <SiteHeader back />
     <main class="main">
-      <h1 class="heading focus-visible-only" tabindex="-1" ref="heading">
+      <h1 ref="heading" class="heading focus-visible-only" tabindex="-1">
         <template v-if="!currentRound">Loading...</template>
         <template v-else>
           <span class="lead">
@@ -14,16 +14,15 @@
       <EmployeeGrid
         v-if="currentRound"
         :round="currentRound"
-        @guess="handleGuess"
         class="employee-grid"
+        @guess="handleGuess"
       />
-      <p tabindex="-1" ref="hint" class="hint focus-visible-only">
+      <p ref="hint" tabindex="-1" class="hint focus-visible-only">
         <template v-if="!lastGuess">Choose the matching photo</template>
         <template v-else-if="lastGuess.correct === false">Try again!</template>
         <template v-else>Correct!</template>
       </p>
       <SiteButton
-        @click="handleContinue"
         v-bind="
           !lastGuess?.correct
             ? {
@@ -33,6 +32,7 @@
             : {}
         "
         class="continue"
+        @click="handleContinue"
       >
         Continue
       </SiteButton>

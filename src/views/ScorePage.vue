@@ -9,7 +9,7 @@
           {{ score.correct }}/{{ score.total }}!
         </h1>
       </div>
-      <SiteButton class="link" element="router-link" to="/">
+      <SiteButton element="router-link" to="/" class="link">
         Return to Home
       </SiteButton>
       <div class="results">

@@ -2,7 +2,7 @@
   <button type="button" class="button">
     <img :src="employee.headshot.url" alt="" class="headshot" />
     <span class="label">{{ label }}</span>
-    <span :class="{ status: true, correct }" v-if="hasBeenGuessed">
+    <span v-if="hasBeenGuessed" :class="{ status: true, correct }">
       <img v-if="correct" src="@/assets/icons/correct.svg" alt="Correct!" />
       <img v-else src="@/assets/icons/incorrect.svg" alt="Incorrect!" />
     </span>
