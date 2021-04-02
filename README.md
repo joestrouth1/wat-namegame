@@ -80,9 +80,7 @@ This project uses [Jest](https://jestjs.io/) to run tests. It's configured in `/
 
 For testing Vue components, the project includes [Vue Test Utils](https://next.vue-test-utils.vuejs.org/).
 
-There aren't many tests right now. Were I to add tests, I would start with the store modules. They're the most complex and critical components of the application.
-
-Page components in `/views` would be the next priority, but given their reliance on the store and router, they're better suited to integration/e2e tests. The additional tooling required to add useful tests for those would have taken too much time to justify for an app that will be unmaintained next week.
+There aren't many tests right now. Were I to add tests, I would start with the store modules. They're the most complex and critical components of the application. An example is included in the `__tests__` subfolder. Page components in `/views` would be the next priority.
 
 Any shared Vue components are very simple, with little to no state and few props. 
 Adding tests to leaf components like these could quickly venture into testing the framework, i.e. that child content is rendered or that click events are emitted. Could still be worth it down the line if/when the application grows.
