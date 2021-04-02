@@ -1,4 +1,4 @@
-import { createStore, createLogger } from 'vuex'
+import { createStore, createLogger, Store as VuexStore } from 'vuex'
 import {
   EmployeesModule,
   Store as EmployeesStore,
@@ -18,16 +18,18 @@ export type State = {
 export type Store = EmployeesStore<Pick<State, 'employees'>> &
   ScoringStore<Pick<State, 'scoring'>>
 
-export const store = createStore({
+export const createStoreInstance = (): VuexStore<State> => createStore({
   plugins:
-    process.env.NODE_ENV === 'production'
-      ? []
-      : [createLogger()],
+    process.env.NODE_ENV === 'development'
+      ? [createLogger()]
+      : [],
   modules: {
     employees: EmployeesModule,
     scoring: ScoringModule
   }
 })
+
+export const store = createStoreInstance()
 
 export function useStore (): Store {
   return store as Store
